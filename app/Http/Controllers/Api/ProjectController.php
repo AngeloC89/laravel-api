@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Project;
 
 use App\Http\Controllers\Controller;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -13,9 +14,10 @@ class ProjectController extends Controller
     {
         $projects = Project::all();
         return response()->json([
-            'success' => true,
+            'status' => 'success',
+            'message' => 'ok',
             'results' => $projects
-        ]);
+        ], 200);
     }
 
     public function show($slug)
@@ -24,14 +26,15 @@ class ProjectController extends Controller
 
         if ($project) {
             return response()->json([
-                'success' => true,
+                'status' => 'success',
+                'message' => 'ok',
                 'results' => $project
-            ]);
+            ], 200);
         } else {
             return response()->json([
-                'success' => false,
-                'results' => 'Project not found'
-            ]);
+                'status' => 'error',
+                'message' => 'Error',
+            ], 404);
         }
     }
 }
