@@ -20,8 +20,19 @@ class LeadController extends Controller
       $validator = Validator::make($data,[
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
             'message' => 'required',
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 400);
+        }
+
+        $lead = new Lead();
+        $lead->fill($data);
+        $lead->save();  
+        Mail::to('KqoQe@example.com')->send(new NewContact($lead));
     }
 };
