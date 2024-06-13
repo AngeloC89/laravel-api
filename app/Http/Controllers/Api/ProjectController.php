@@ -15,13 +15,13 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        $technology = $request->query('technology');
-        $projects = Project::with('technologies')->when($technology, function(Builder $query, string $technology){
-            $query->where('technologies.id', $technology);
-        })->paginate(4);
+        if ($request->query('technologies')) {
+            $projects = Project::with('technologies')->where('technologies_id', $request->query('technologies'))->paginate(4);
+        } else {
+            $projects = Project::with('technologies')->paginate(4);
+        }
         return response()->json([
             'status' => 'success',
-            'message' => 'ok',
             'results' => $projects
         ], 200);
     }

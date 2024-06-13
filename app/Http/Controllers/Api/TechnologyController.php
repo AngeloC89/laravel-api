@@ -11,7 +11,7 @@ class TechnologyController extends Controller
 {
     public function index()
     {
-
+        //dd("ciao");
         $technologies = Technology::all();
         return response()->json([
             'status' => 'success',

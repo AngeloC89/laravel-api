@@ -19,7 +19,7 @@ use App\Http\Controllers\Api\LeadController;
 */
 Route::get('projects', [ProjectController::class, 'index']);
 Route::get('projects/{slug}', [ProjectController::class, 'show']);
-Route::get('technologies}', [TechnologyController::class, 'index']);
+Route::get('technologies', [TechnologyController::class, 'index']);
 
 Route::post('contacts', [LeadController::class, 'store']);
 
