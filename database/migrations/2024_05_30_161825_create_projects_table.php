@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('type_id')->nullable();
+            $table->foreign('type_id')->references('id')->on('types')->onDelete('set null');
             $table->string('title',200)->unique(); 
             $table->text('content'); 
-            $table->string('image', 255)->nullable();
             $table->string('slug', 255);              
             $table->timestamps();
         });

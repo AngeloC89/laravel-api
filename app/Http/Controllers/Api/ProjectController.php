@@ -15,8 +15,9 @@ class ProjectController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->query('technologies')) {
-            $projects = Project::with('technologies')->where('technologies_id', $request->query('technologies'))->paginate(4);
+
+        if($request->query('technologies')) {
+            $projects = Project::with('technologies')->where('project_technology.technology_id', $request->query('technologies'))->paginate(4); 
         } else {
             $projects = Project::with('technologies')->paginate(4);
         }

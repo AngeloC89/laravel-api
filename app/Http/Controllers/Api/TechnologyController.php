@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class TechnologyController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         //dd("ciao");
         $technologies = Technology::all();
