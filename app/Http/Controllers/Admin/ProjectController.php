@@ -10,6 +10,7 @@ use App\Http\Requests\StoreProjectRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Type;
 use App\Models\Technology;
+use App\Models\Image;
 
 //use Illuminate\Support\Facades\DB;
 
@@ -40,17 +41,28 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        //Valido i dati
         $form_data = $request->validated();
+        //creo lo slug dal titolo
         $form_data['slug'] = Project::generateSlug($form_data['title']);
+        //creo il nuovo progetto ( al momemnto senza immagini qual'ora non ci siano ) 
+        $new_project = Project::create($form_data);
+        //verifico se ci sono immagini
         if ($request->hasFile('image')) {
-            $name = $request->image->getClientOriginalName();
-            $path = Storage::putFileAs('project_image', $request->image, $name);
+            $image = $request->file('image');
+            $name = $image->getClientOriginalName();
+            $path = Storage::putFileAs('project_image', $image, $name);
             $form_data['image'] = $path;
         }
+
+        Image::create([
+            'project_id' => $new_project->id,  // Collega l'immagine al progetto
+            'path' => $path                   // Salva il percorso dell'immagine
+        ]);
         
 
 
-        $new_project = Project::create($form_data);
+       
         if($request->has('technologies')) {
             $new_project->technologies()->attach($request->technologies);
         }    
