@@ -8,18 +8,20 @@ use Illuminate\Support\Str;
 
 use App\Models\Technology;
 use App\Models\Type;
+use App\Models\Image;
 
 class Project extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'content', 'image', 'slug', 'type_id'];
+    protected $fillable = ['title', 'content', 'slug', 'type_id'];
 
-    public static function generateSlug($title){
+    public static function generateSlug($title)
+    {
 
         $slug = Str::slug($title, '-');
         $count = 1;
         //itera nel campo slug per verificare se ne esiste uno uguale, se esiste modifica iln titolo... 
-        while(Project::where('slug', $slug)->first()){
+        while (Project::where('slug', $slug)->first()) {
             $slug = Str::of($title)->slug('-') . " - {$count}";
             $count++;
         }
@@ -34,5 +36,11 @@ class Project extends Model
     public function technologies()
     {
         return $this->belongsToMany(Technology::class);
+    }
+
+    //questa funzione serve a gestire la relazione tra la tabella dei progetti e quella delle immagini (1 a molti)
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 }
