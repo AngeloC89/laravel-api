@@ -129,6 +129,10 @@ class ProjectController extends Controller
             ]);
         }
 
+        if (isset($form_data['type_id'])) {
+            $project->type_id = $form_data['type_id']; // Associa il nuovo tipo
+        }
+
         //     DB::enableQueryLog();
         $project->update($form_data);
         //     $query = DB::getQueryLog();
