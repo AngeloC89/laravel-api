@@ -16,11 +16,21 @@ class ProjectController extends Controller
     public function index(Request $request)
     {
 
-        if($request->query('technologies')) {
-            $projects = Project::with('technologies')->where('project_technology.technology_id', $request->query('technologies'))->paginate(4); 
-        } else {
-            $projects = Project::with('technologies')->paginate(4);
+        $projects = Project::with(['technologies', 'images']);
+
+        if ($request->query('technologies')) {
+            $projects->whereHas('technologies', function($query) use ($request) {
+                $query->where('technology_id', $request->query('technologies'));
+            });
         }
+
+        if ($request->query('images')) {
+            $projects->whereHas('images', function($query) use ($request) {
+                $query->where('image_id', $request->query('images'));  // Aggiusta questo filtro secondo le tue necessità
+            });
+        }
+
+        $projects = $projects->paginate(10);
         return response()->json([
             'status' => 'success',
             'results' => $projects
@@ -29,7 +39,7 @@ class ProjectController extends Controller
 
     public function show($slug)
     {
-        $project = Project::where('slug', $slug)->with('technologies', 'type')->first();
+        $project = Project::with(['technologies','type', 'images'])->where('slug', $slug)->first();
 
         if ($project) {
             return response()->json([
