@@ -24,28 +24,34 @@
                 required>{{ old('content', $project->content) }}"></textarea>
         </div>
 
-                                {{--image--}}
+        {{--image--}}
         <div class="mb-3">
-            @if ($project->image)
-                <span class="m-3 text-muted">Current Image: <img id="upload_preview" class="w-25 my-3"
-                        src="/images/placeholder.jpeg" alt=""></span>
-                    
+            @if ($project->images->isNotEmpty())
+                <span class="m-3 text-muted">Current Images:</span>
+                @foreach ($project->images as $image)
+                    <img id="upload_preview" class="w-25 my-3"
+                        src="{{ Storage::url($image->path ?? '/images/placeholder.jpeg') }}" alt="Project Image">
+                @endforeach
+            @else
+                <span class="m-3 text-muted">No images available. <img id="upload_preview" class="w-25 my-3"
+                        src="{{ asset('/images/placeholder.jpeg') }}" alt="Placeholder"></span>
             @endif
             <div>
                 <input type="file" accept="image/*" class="form-control @error('image') is-invalid @enderror w-100"
-                    id="uploadImage" name="image" value="{{ old('image', $project->image) }}">
+                    id="uploadImage" name="image">
             </div>
             @error('image')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
-                               {{--type--}}
+        {{--type--}}
         <div class="mb-3">
             <label for="tpye_id" class="form-label">Select type</label>
             <select name="type_id" id="type_id" class="form-control @error('type_id') is-invalid @enderror">
-               
+
                 @foreach ($types as $type)
-                    <option value="{{$type->id}}" {{ $type->id == $project->type_id ? 'selected' : '' }}>{{$type->name}}</option>
+                    <option value="{{$type->id}}" {{ $type->id == $project->type_id ? 'selected' : '' }}>{{$type->name}}
+                    </option>
                 @endforeach
             </select>
 

@@ -51,7 +51,7 @@ class ProjectController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name = $image->getClientOriginalName();
-            $path = Storage::putFileAs('project_image', $image, $name);
+            $path = Storage::putFileAs('project_images', $image, $name);
             $form_data['image'] = $path;
         }
 
@@ -59,13 +59,13 @@ class ProjectController extends Controller
             'project_id' => $new_project->id,  // Collega l'immagine al progetto
             'path' => $path                   // Salva il percorso dell'immagine
         ]);
-        
 
 
-       
-        if($request->has('technologies')) {
+
+
+        if ($request->has('technologies')) {
             $new_project->technologies()->attach($request->technologies);
-        }    
+        }
 
         return redirect()->route('admin.project.show', $new_project->slug)->with("message", "Il progetto $new_project->title e stato creato correttamente");
     }
@@ -73,8 +73,11 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Project $project)
+    public function show($slug)
     {
+        $project = Project::where('slug', $slug)->with('images', 'type', 'technologies')->firstOrFail();
+        //dd($project);
+
 
         return view('admin.project.show', compact('project'));
     }
@@ -86,7 +89,7 @@ class ProjectController extends Controller
     {
         $types = Type::all();
         $technologies = Technology::all();
-        return view('admin.project.edit', compact('project','types', 'technologies'));
+        return view('admin.project.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -100,24 +103,44 @@ class ProjectController extends Controller
             $form_data['slug'] = Project::generateSlug($form_data['title']);
             
         }
+
+        // Se c'è una nuova immagine caricata
         if ($request->hasFile('image')) {
-            if($project->image) {
-                Storage::delete($project->image);
+
+            // Verifica se il progetto ha già un'immagine associata
+            $currentImage = $project->images()->first(); // Recupera la prima immagine associata al progetto (assumendo un solo record)
+
+            if ($currentImage) {
+                // Elimina l'immagine fisica dal filesystem
+                Storage::disk('public')->delete($currentImage->path);
+                // Elimina il record nella tabella `images`
+                $currentImage->delete();
             }
+
+            // Carica la nuova immagine
             $name = $request->image->getClientOriginalName();
-            $path = Storage::putFileAs('project_image', $request->image, $name);
-            $form_data['image'] = $path;
+            // Salva il file nella cartella `project_images` all'interno di `storage/app/public`
+            $path = $request->file('image')->storeAs('project_images', $name, 'public');
+
+            // Crea un nuovo record nella tabella `images` e associa l'immagine al progetto
+            $project->images()->create([
+                'path' => $path,           // Percorso del file caricato
+                'project_id' => $project->id // Associa l'immagine al progetto
+            ]);
         }
+
         //     DB::enableQueryLog();
         $project->update($form_data);
         //     $query = DB::getQueryLog();
         //     dd($query);
 
-        if($request->has('technologies')) {
+
+
+        if ($request->has('technologies')) {
             $project->technologies()->sync($request->technologies);
         } else {
             $project->technologies()->sync([]);
-        }    
+        }
 
         return redirect()->route('admin.project.show', $project->slug)->with('message', "The project $project->title has been updated");
 
