@@ -42,6 +42,7 @@ class UpdateProjectRequest extends FormRequest
         'title.required' => 'Inserisci il titolo.',
         'titolo.min' => 'Inserisci 5 caratteri minimo.',
         'titolo.max'=> 'Il titolo non può avere più di 200 caratteri.',
+        'type_id.exists' => 'Seleziona un tipo.',
         'content.required' => 'Inserisci un contenuto',
         'image.required' => 'Inserisci un\'immagine',
 

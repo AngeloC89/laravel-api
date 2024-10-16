@@ -63,20 +63,29 @@ class TypeController extends Controller
         $request->validate([
             'name' => 'required|max:255',
         ]);
+
         $form_data = $request->all();
+
         if ($type->name !== $form_data['name']) {
             $form_data['slug'] = Type::generateSlug($form_data['name']);
+        } else {
+            // Se il nome non cambia, usa lo slug esistente
+            $form_data['slug'] = $type->slug;
         }
+
+        //debug
+        //dd($form_data); 
+
         $type->update($form_data);
-        return redirect()->route('admin.types.show', $type->slug);
+        return redirect()->route('admin.types.show', $form_data['slug'])->with("message", "Il tipo $type->name e stato aggiornato correttamente");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Type $Type)
+    public function destroy(Type $Types)
     {
-        $Type->delete();
-        return redirect()->route('admin.types.index')->with('message', "The type $Type->name has been deleted");
+        $Types->delete();
+        return redirect()->route('admin.types.index')->with('message', "The type $Types->name has been deleted");
     }
 }
