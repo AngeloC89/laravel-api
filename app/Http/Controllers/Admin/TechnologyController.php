@@ -61,14 +61,21 @@ class TechnologyController extends Controller
     public function update(Request $request, Technology $technology)
     {
         $request->validate([
-            'name' => 'required|unique:technologies|max:255',
+            'name' => 'required|max:255',
         ]);
+
         $form_data = $request->all();
+       
+
         if($technology->name !== $form_data['name']) {
         $form_data['slug'] = Technology::generateSlug($form_data['name']);
+        } else {
+            // Se il nome non cambia, usa lo slug esistente
+            $form_data['slug'] = $technology->slug;
         }
+
         $technology->update($form_data);
-        return redirect()->route('admin.technologies.show', $technology->slug)->with("message", "La tecnologia $technology->name e stata aggiornata correttamente");
+        return redirect()->route('admin.technologies.show', $form_data['slug'])->with("message", "La tecnologia $technology->name e stata aggiornata correttamente");
     }
 
     /**
@@ -76,6 +83,7 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $technology->delete();
+        return redirect()->route('admin.technologies.index')->with('message', "The technology $technology->name has been deleted");
     }
 }

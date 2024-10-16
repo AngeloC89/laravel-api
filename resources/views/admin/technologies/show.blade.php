@@ -11,10 +11,6 @@
 
   <h1 class=" text-uppercase py-3 ">{{ $technology->name }}</h1>
 
-  <img class="w-25" src="{{asset('storage/' . $technology->image ?? '') }}" alt="">
-
-  <div class=" fs-3 py-4">Status: {{ $technology->content }}</div>
-
   <div class="d-flex justify-content-start py-2">
     <button class="btn btn-primary h-25"><a class="text-decoration-none text-white"
         href="{{route('admin.technologies.edit', $technology->slug)}}">Modifica</a></button>

@@ -11,19 +11,19 @@
         @method('PUT')
         <div class="mb-3">
             <label for="title" class="form-label @error('title') is-invalid @enderror">Title</label>
-            <input type="text" class="form-control" id="title" name="title" 
+            <input type="text" class="form-control" id="title" name="name" 
                 value="{{ old('name', $technology->name) }}" required>
 
             @error('title')
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label for="content" class="form-label">Content</label>
             <textarea type="text" class="form-control @error('content') is-invalid @enderror" id="description"
                 name="content" placeholder="Descrizone" value="{{old('content', $technology->content)}}"
                 required>{{ old('content', $technology->content) }}</textarea>
-        </div>
+        </div> -->
 
 
         {{-- <div class="mb-3">
@@ -43,7 +43,7 @@
             @enderror
         </div> --}}
 
-        <button class="btn btn-primary" technology="submit">Modifica</button>
+        <button class="btn btn-primary" type="submit">Modifica</button>
     </form>
 </section>
 @endsection
