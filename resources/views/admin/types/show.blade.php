@@ -9,17 +9,15 @@
     </div>
   @endif
 
-  <h1 class=" text-uppercase py-3 ">{{ $types->title }}</h1>
+  <h1 class=" text-uppercase py-3 ">{{ $type->name }}</h1>
 
-  <img class="w-25" src="{{asset('storage/' . $types->image ?? '') }}" alt="">
-
-  <div class=" fs-3 py-4">Status: {{ $types->content }}</div>
+  <!-- <div class=" fs-3 py-4">Status: {{ $type->content }}</div> -->
 
   <div class="d-flex justify-content-start py-2">
     <button class="btn btn-primary h-25"><a class="text-decoration-none text-white"
-        href="{{route('admin.types.edit', $types->slug)}}">Modifica</a></button>
+        href="{{route('admin.types.edit', $type->slug)}}">Modifica</a></button>
 
-    <form action="{{ route('admin.types.destroy', $types->slug) }}" method="POST">
+    <form action="{{ route('admin.types.destroy', $type->slug) }}" method="POST">
       @csrf
       @method('DELETE')
       <input id="deletetypes" type="submit" value="Elimina" class="btn btn-danger ms-3">
@@ -34,7 +32,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Stai eliminando {{ $types->title }}</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Stai eliminando {{ $type->title }}</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
