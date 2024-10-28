@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('type_id')->nullable();
             $table->foreign('type_id')->references('id')->on('types')->onDelete('set null');
             $table->string('title',200)->unique(); 
+            $table->text('link')->nullable();
             $table->text('content'); 
             $table->string('slug', 255);              
             $table->timestamps();

@@ -31,6 +31,7 @@ class StoreProjectRequest extends FormRequest
              
                 
             ],
+            'link' => 'nullable',
             'content' => 'required',
             'image' => 'required',
             'type_id' => 'nullable|exists:types,id'

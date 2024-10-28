@@ -8,9 +8,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
+
+
+   public function index($name) { 
+        // Recupera l'utente dal database
+        $user = User::find($name);
+    
+        // Verifica se l'utente esiste
+        if (!$user) {
+            return response()->json(['message' => 'Utente non trovato'], 404);
+        }
+    
+        // Restituisci il nome dell'utente
+        return response()->json([
+            'name' => $user->name,
+        ]);
+    }
+
     /**
      * Display the user's profile form.
      */

@@ -43,6 +43,19 @@ class ProjectController extends Controller
     {
         //Valido i dati
         $form_data = $request->validated();
+        $originalTitle = $form_data['title'];
+        $title = $originalTitle;  // Inizialmente, il titolo è uguale all'originale
+        $counter = 1;
+
+        // Ciclo per trovare un titolo unico
+        while (Project::where('title', $title)->exists()) {
+            // Aggiungi un suffisso progressivo al titolo
+            $title = $originalTitle . '-' . $counter;
+            $counter++;
+        }
+
+        // Usa il titolo unico trovato
+        $form_data['title'] = $title;
         //creo lo slug dal titolo
         $form_data['slug'] = Project::generateSlug($form_data['title']);
         //creo il nuovo progetto ( al momemnto senza immagini qual'ora non ci siano ) 
@@ -51,7 +64,7 @@ class ProjectController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name = $image->getClientOriginalName();
-            $path = Storage::putFileAs('project_images', $image, $name);
+            $path = Storage::disk('public')->putFileAs('project_images', $image, $name);
             $form_data['image'] = $path;
         }
 
@@ -101,7 +114,7 @@ class ProjectController extends Controller
         $form_data = $request->validated();
         if ($project->title !== $form_data['title']) {
             $form_data['slug'] = Project::generateSlug($form_data['title']);
-            
+
         }
 
         // Se c'è una nuova immagine caricata

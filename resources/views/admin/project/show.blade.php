@@ -13,6 +13,8 @@
 
   <h1 class=" text-uppercase py-3 ">{{ $project->title }}</h1>
 
+  <a href="{{$project->link}}"><h2>{{$project->link}}</h2>
+  </a>
   <div>
     @foreach($project->images as $image)
     <img src="{{ Storage::url($image->path) }}" alt="Image of {{ $project->title }}">
