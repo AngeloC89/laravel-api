@@ -30,7 +30,7 @@ class ProjectController extends Controller
             });
         }
 
-        $projects = $projects->paginate(10);
+        $projects = $projects->paginate(4);
         return response()->json([
             'status' => 'success',
             'results' => $projects

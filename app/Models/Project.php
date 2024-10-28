@@ -13,7 +13,7 @@ use App\Models\Image;
 class Project extends Model
 {
     use HasFactory;
-    protected $fillable = ['type_id', 'title', 'content', 'slug' ];
+    protected $fillable = ['type_id', 'title', 'link', 'content', 'slug' ];
 
     public static function generateSlug($title)
     {

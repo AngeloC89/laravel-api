@@ -21,7 +21,7 @@
             <label for="content" class="form-label">Content</label>
             <textarea type="text" class="form-control @error('content') is-invalid @enderror" id="description"
                 name="content" placeholder="Descrizone" value="{{old('content', $project->content)}}"
-                required>{{ old('content', $project->content) }}"></textarea>
+                required>{{ old('content', $project->content) }}</textarea>
         </div>
 
         {{--image--}}
