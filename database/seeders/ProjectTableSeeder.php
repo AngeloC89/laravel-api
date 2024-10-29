@@ -31,7 +31,8 @@ class ProjectTableSeeder extends Seeder
 
                 $new_project = new Project();
                 $new_project->title = $project[0];
-                $new_project->content = $project[1];
+                $new_project->link = $project[1];
+                $new_project->content = $project[2];
                 $new_project->slug = Project::generateSlug($new_project->title);
                 $new_project->save();
             }
