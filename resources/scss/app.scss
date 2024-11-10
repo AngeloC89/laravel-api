@@ -2,11 +2,11 @@
 
 $fa-font-path: "../webfonts" !default;
 
-@use "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
-@use "~@fortawesome/fontawesome-free/scss/regular.scss";
-@use "~@fortawesome/fontawesome-free/scss/solid.scss";
-@use "~@fortawesome/fontawesome-free/scss/brands.scss";
-@use "~bootstrap/scss/bootstrap.scss";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/regular.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+@import "~bootstrap/scss/bootstrap.scss";
 
 @import url('https://fonts.googleapis.com/css2?family=Mouse+Memoirs&display=swap');
 
