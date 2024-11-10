@@ -13,21 +13,20 @@ export default defineConfig({
     // Add resolve object and aliases
     resolve: {
         alias: {
+            "~icons": path.resolve(
+                __dirname,
+                "node_modules/bootstrap-icons/font"
+            ),
             "~bootstrap": path.resolve(__dirname, "node_modules/bootstrap"),
             "~@fortawesome": path.resolve(
                 __dirname,
                 "node_modules/@fortawesome"
             ),
-            "~icons": path.resolve(
-                __dirname,
-                "node_modules/bootstrap-icons/font"
-            ),
+
             "~resources": path.resolve(__dirname, "resources"),
         },
     },
-    server: {
-        https: true, // Assicurati che Vite usi HTTPS in fase di sviluppo
-    },
+   
     build: {
         // Opzione per forzare gli asset generati a essere in HTTPS in produzione
         assetPublicPath: "/build/", // Non dovresti aver bisogno di modificarlo se stai usando il path corretto in Laravel
