@@ -19,7 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('APP_FRONTEND_URL','https://portfolio-angelo-c0662.web.app/')],
+    'allowed_origins' => [
+        env('APP_FRONTEND_URL', 'https://portfolio-angelo-c0662.web.app/'),
+        'http://localhost:'
+    ],
 
     'allowed_origins_patterns' => [],
 
