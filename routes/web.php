@@ -22,7 +22,7 @@ use App\Http\Controllers\admin\TechnologyController;
 
 Route::get('/',[HomeController::class, 'index'])->name('home');
 
-Route::middleware('auth')->name('admin.')->prefix('admin')->group(function () {
+Route::middleware('auth')->name('admin.')->prefix('admin')->namespace('App\Http\Controllers\Admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('/project', ProjectController::class)->parameters(['project' => 'project:slug']);
     Route::resource('/types', TypeController::class)->parameters(['types' => 'type:slug']);
