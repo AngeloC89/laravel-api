@@ -19,9 +19,10 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        env('APP_FRONTEND_URL', 'https://portfolio-angelo-c0662.web.app/'),
-        'http://localhost:'
+    'allowed_origins' => env('APP_ENV') === 'local' ? [
+        'http://localhost:5173',  // Pemrette di fungere in locale
+    ] : [
+        env('APP_FRONTEND_URL', 'https://portfolio-angelo-c0662.web.app'),
     ],
 
     'allowed_origins_patterns' => [],
