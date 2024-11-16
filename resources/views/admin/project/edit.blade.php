@@ -17,11 +17,24 @@
                 <div class="alert alert-danger">{{ $message }}</div>
             @enderror
         </div>
+
+        <!-- Description -->
         <div class="mb-3">
             <label for="content" class="form-label">Content</label>
             <textarea type="text" class="form-control @error('content') is-invalid @enderror" id="description"
                 name="content" placeholder="Descrizone" value="{{old('content', $project->content)}}"
                 required>{{ old('content', $project->content) }}</textarea>
+        </div>
+
+        <!-- Link -->
+        <div class="mb-3">
+            <label for="link" class="form-label">Link of project</label>
+            <input type="text" class="form-control @error('link') is-invalid @enderror" id="link" name="link"
+                value="{{ old('link', $project->link) }}">
+
+            @error('link')
+                <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         {{--image--}}
@@ -30,7 +43,7 @@
                 <span class="m-3 text-muted">Current Images:</span>
                 @foreach ($project->images as $image)
                     <img id="upload_preview" class="w-25 my-3"
-                        src="{{ Storage::url($image->path ?? '/images/placeholder.jpeg') }}" alt="Project Image">
+                        src="{{ Storage::disk('s3')->url($image->path ?? '/images/placeholder.jpeg') }}" alt="Project Image">
                 @endforeach
             @else
                 <span class="m-3 text-muted">No images available. <img id="upload_preview" class="w-25 my-3"

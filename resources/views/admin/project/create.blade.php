@@ -21,7 +21,7 @@
     <input type="text" class="form-control @error('link') is-invalid @enderror" id="link" name="link"
       value="{{ old('link') }}">
 
-    @error('content')
+    @error('link')
     <div class="alert alert-danger">{{ $message }}</div>
   @enderror
   </div>

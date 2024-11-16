@@ -21,7 +21,8 @@ return [
 
     'allowed_origins' => [
         env('APP_FRONTEND_URL', 'https://portfolio-angelo-c0662.web.app'),
-        'http://localhost:5173'
+        'http://localhost:5173',
+        'http://localhost:5174'
     ],
 
     'allowed_origins_patterns' => [],
