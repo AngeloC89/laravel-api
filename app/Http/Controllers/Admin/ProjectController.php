@@ -60,13 +60,15 @@ class ProjectController extends Controller
         $form_data['slug'] = Project::generateSlug($form_data['title']);
         //creo il nuovo progetto ( al momemnto senza immagini qual'ora non ci siano ) 
         $new_project = Project::create($form_data);
+
         //verifico se ci sono immagini
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name = $image->getClientOriginalName();
-            $path = Storage::disk('public')->putFileAs('project_images', $image, $name);
+            $path = Storage::disk('s3')->putFileAs('images', $image, $name);
             $form_data['image'] = $path;
         }
+
 
         Image::create([
             'project_id' => $new_project->id,  // Collega l'immagine al progetto
@@ -90,7 +92,6 @@ class ProjectController extends Controller
     {
         $project = Project::where('slug', $slug)->with('images', 'type', 'technologies')->firstOrFail();
         //dd($project);
-
 
         return view('admin.project.show', compact('project'));
     }
@@ -117,23 +118,24 @@ class ProjectController extends Controller
 
         }
 
+        $form_data['link'] = $request->link;
+
+
         // Se c'è una nuova immagine caricata
         if ($request->hasFile('image')) {
-
-            // Verifica se il progetto ha già un'immagine associata
             $currentImage = $project->images()->first(); // Recupera la prima immagine associata al progetto (assumendo un solo record)
 
-            if ($currentImage) {
-                // Elimina l'immagine fisica dal filesystem
-                Storage::disk('public')->delete($currentImage->path);
-                // Elimina il record nella tabella `images`
-                $currentImage->delete();
+            if ($currentImage && $currentImage->path) {
+                Storage::disk('s3')->delete($currentImage->path);// Elimina l'immagine fisica dal filesystem
+                $currentImage->delete();// Elimina il record nella tabella `images`
             }
 
             // Carica la nuova immagine
             $name = $request->image->getClientOriginalName();
-            // Salva il file nella cartella `project_images` all'interno di `storage/app/public`
-            $path = $request->file('image')->storeAs('project_images', $name, 'public');
+
+            // Salva il file nella cartella `images` all'interno di `storage/app/s3`
+            $path = $request->file('image')->storeAs('images', $name, 's3');
+
 
             // Crea un nuovo record nella tabella `images` e associa l'immagine al progetto
             $project->images()->create([
