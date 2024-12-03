@@ -30,11 +30,13 @@ class ProjectController extends Controller
             });
         }
 
-        $projects = $projects->paginate(4);
+        $projects = $projects->get();
+       //dd($projects);
         return response()->json([
             'status' => 'success',
             'results' => $projects
         ], 200);
+        
     }
 
     public function show($slug)
