@@ -7,6 +7,8 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Admin\TechnologyController;
+use App\Http\Controllers\Api\LeadController;
+use Illuminate\Support\Facades\Storage;
 
 
 /*
@@ -35,6 +37,43 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::get('/auth/google', function () {
+    $client = new \Google\Client();
+    $client->setClientId(env('GOOGLE_CLIENT_ID'));
+    $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
+    $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
+    $client->addScope('https://www.googleapis.com/auth/gmail.send');
+    $client->setAccessType('offline');
+
+    return redirect($client->createAuthUrl());
+});
+
+Route::get('/callback', function (Illuminate\Http\Request $request) {
+    $client = new \Google\Client();
+    $client->setClientId(env('GOOGLE_CLIENT_ID'));
+    $client->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
+    $client->setRedirectUri(env('GOOGLE_REDIRECT_URI'));
+
+    $token = $client->fetchAccessTokenWithAuthCode($request->input('code'));
+
+    // Salva il refresh_token (solo alla prima configurazione)
+    if (isset($token['refresh_token'])) {
+        // Percorso dove salvare il token su S3
+        $tokenPath = 'gmail_tokens/google-refresh-token.json';
+        
+        // Salva il token su S3
+        Storage::disk('s3')->put($tokenPath, json_encode($token));
+    }
+
+
+    return 'Autenticazione completata!';
+});
+
+
+
+
 
 require __DIR__.'/auth.php';
 

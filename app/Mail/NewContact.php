@@ -9,48 +9,39 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
+
 class NewContact extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $lead;
+
+    public $name;
+    public $email;
+    public $message;
+
 
     /**
      * Create a new message instance.
      */
-    public function __construct($_lead)
+    public function __construct($name, $email, $message = '')
     {
-        $this->lead = $_lead;
+
+        $this->name = $name;
+        $this->email = $email;
+        $this->message = $message;
+
     }
 
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'New Contact',
-            replyTo: $this->lead->address
-        );
-    }
 
     /**
-     * Get the message content definition.
+     * Restituisce il contenuto dell'email come stringa HTML.
      */
-    public function content(): Content
+    public function renderHtml(): string
     {
-        return new Content(
-            view: 'mails.new-contact',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
-    {
-        return [];
+        return view('mails.new-contact', [
+            'name' => $this->name,
+            'email' => $this->email,
+            'message' => $this->message,
+        ])->render();
     }
 }
