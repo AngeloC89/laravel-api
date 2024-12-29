@@ -88,6 +88,8 @@
         </div>
 
         <button class="btn btn-primary" type="submit">Modifica</button>
+        <a href="{{ route('admin.project.index') }}" class="btn btn-danger">Annulla</a>
+
     </form>
 </section>
 @endsection

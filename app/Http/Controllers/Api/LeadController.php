@@ -16,7 +16,6 @@ class LeadController extends Controller
     public function store(Request $request)
     {
 
-        //dd("test di funzionamento");
 
         // Validazione del form
         $validated = $request->validate([

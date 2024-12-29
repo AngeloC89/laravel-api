@@ -2,6 +2,7 @@
 
 namespace App\Mail\Services;
 
+use Illuminate\Support\Facades\Storage;
 use Google\Client;
 
 class GoogleTokenClass
@@ -34,18 +35,22 @@ class GoogleTokenClass
      */
     protected function checkAndRefreshToken()
     {
-        $tokenPath = storage_path('google-refresh-token.json');
-        if (file_exists($tokenPath)) {
-            $token = json_decode(file_get_contents($tokenPath), true);
+        $tokenPath = 'gmail_tokens/google-refresh-token.json';
+        if (Storage::disk('s3')->exists($tokenPath)) {
+            // Ottieni il contenuto del file token da S3
+            $token = json_decode(Storage::disk('s3')->get($tokenPath), true);
             $this->client->setAccessToken($token);
-
+    
+            // Se il token è scaduto, rinnovalo
             if ($this->client->isAccessTokenExpired()) {
                 $newToken = $this->client->fetchAccessTokenWithRefreshToken($this->client->getRefreshToken());
-                file_put_contents($tokenPath, json_encode($newToken));
+    
+                // Salva il nuovo token su S3
+                Storage::disk('s3')->put($tokenPath, json_encode($newToken));
                 $this->client->setAccessToken($newToken);
             }
         } else {
-            throw new \Exception('Il file del token non esiste. Effettua nuovamente l\'autenticazione.');
+            throw new \Exception('Il file del token non esiste su S3. Effettua nuovamente l\'autenticazione.');
         }
     }
 }

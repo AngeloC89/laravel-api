@@ -17,7 +17,7 @@
   </a>
   <div>
     @foreach($project->images as $image)
-    <img src="{{ Storage::disk('s3')->url($image->path) }}" alt="Image of {{ $project->title }}">
+    <img class="w-75" src="{{ Storage::disk('s3')->url($image->path) }}" alt="Image of {{ $project->title }}">
     <!-- Se vuoi mostrare solo il nome dell'immagine -->
     <p>{{ basename($image->path) }}</p>
   @endforeach
