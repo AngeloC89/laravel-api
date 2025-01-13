@@ -65,7 +65,7 @@ class ProjectController extends Controller
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $name = $image->getClientOriginalName();
-            $path = Storage::disk('s3')->putFileAs('images', $image, $name);
+            $path = Storage::disk('google')->putFileAs('images', $image, $name);
             $form_data['image'] = $path;
         }
 
@@ -126,7 +126,7 @@ class ProjectController extends Controller
             $currentImage = $project->images()->first(); // Recupera la prima immagine associata al progetto (assumendo un solo record)
 
             if ($currentImage && $currentImage->path) {
-                Storage::disk('s3')->delete($currentImage->path);// Elimina l'immagine fisica dal filesystem
+                Storage::disk('google')->delete($currentImage->path);// Elimina l'immagine fisica dal filesystem
                 $currentImage->delete();// Elimina il record nella tabella `images`
             }
 
@@ -134,7 +134,7 @@ class ProjectController extends Controller
             $name = $request->image->getClientOriginalName();
 
             // Salva il file nella cartella `images` all'interno di `storage/app/s3`
-            $path = $request->file('image')->storeAs('images', $name, 's3');
+            $path = $request->file('image')->storeAs('images', $name, 'google');
 
 
             // Crea un nuovo record nella tabella `images` e associa l'immagine al progetto

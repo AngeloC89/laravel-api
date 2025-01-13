@@ -31,4 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'google' => [
+        'client_email' => env('GOOGLE_CLIENT_EMAIL'),
+        'private_key' => env('GOOGLE_PRIVATE_KEY'),
+        'project_id' => env('GOOGLE_PROJECT_ID'),
+        'folder_id' => env('GOOGLE_FOLDER_ID'),  // Optional
+    ],
+
 ];

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => env('FILESYSTEM_DISK', 's3'),
+    'default' => env('FILESYSTEM_DISK', 'google'),
 
     /*
     |--------------------------------------------------------------------------
@@ -46,18 +46,14 @@ return [
         //     'throw' => false,
         // ],
 
-        's3' => [
-            'driver' => 's3',
-            'key' => env('AWS_ACCESS_KEY_ID'),
-            'secret' => env('AWS_SECRET_ACCESS_KEY'),
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => env('AWS_BUCKET'),
-            'url' => env('AWS_URL'),
-            'endpoint' => env('AWS_ENDPOINT'),
-            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
-            'throw' => false,
-            
+        'google' => [
+            'driver' => 'google',
+            'client_email' => env('GOOGLE_CLIENT_EMAIL'),
+            'private_key' => env('GOOGLE_PRIVATE_KEY'),
+            'project_id' => env('GOOGLE_PROJECT_ID'),
+            'folder_id' => env('GOOGLE_FOLDER_ID'), // Optional, specify the folder ID in Google Drive
         ],
+
 
     ],
 

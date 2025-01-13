@@ -64,7 +64,7 @@ Route::get('/callback', function (Illuminate\Http\Request $request) {
         $tokenPath = 'gmail_tokens/google-refresh-token.json';
         
         // Salva il token su S3
-        Storage::disk('s3')->put($tokenPath, json_encode($token));
+        Storage::disk('google')->put($tokenPath, json_encode($token));
     }
 
 
