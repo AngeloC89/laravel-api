@@ -7,8 +7,10 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TypeController;
 use App\Http\Controllers\Admin\TechnologyController;
-use App\Http\Controllers\Api\LeadController;
 use Illuminate\Support\Facades\Storage;
+use App\Models\PersonalAccessToken;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Auth;
 
 
 /*
@@ -60,15 +62,32 @@ Route::get('/callback', function (Illuminate\Http\Request $request) {
 
     // Salva il refresh_token (solo alla prima configurazione)
     if (isset($token['refresh_token'])) {
-        // Percorso dove salvare il token su S3
-        $tokenPath = 'gmail_tokens/google-refresh-token.json';
-        
-        // Salva il token su S3
-        Storage::disk('google')->put($tokenPath, json_encode($token));
+
+        $encryptedAccessToken = Crypt::encryptString($token['access_token']);
+        $encryptedRefreshToken = Crypt::encryptString($token['refresh_token']);
+
+        $user = Auth::user();
+     
+        PersonalAccessToken::create([
+            'tokenable_type' => get_class($user), // Tipo del modello, es. 'App\Models\User'
+            'tokenable_id' => $user->id,           // ID dell'utente
+            'name' => 'Gmail API Token',           // Nome del token
+            'token' => $encryptedAccessToken,      // Token crittografato
+            'abilities' => json_encode(['send_mail']), // Le abilità del token, ad esempio 'send_mail'
+            'expires_at' => now()->addHours(1),    // La scadenza del token di accesso
+        ]);
+
+        PersonalAccessToken::create([
+            'tokenable_type' => get_class($user),
+            'tokenable_id' => $user->id,
+            'name' => 'Gmail Refresh Token',
+            'token' => $encryptedRefreshToken,
+            'abilities' => json_encode(['refresh_token']),
+            'expires_at' => now()->addDays(30),  // La scadenza del refresh token (tipicamente più lunga)
+        ]);
     }
 
-
-    return 'Autenticazione completata!';
+    return 'Autenticazione completata con successo Angelo!';
 });
 
 
