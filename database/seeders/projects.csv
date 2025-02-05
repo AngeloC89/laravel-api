@@ -1,5 +1,9 @@
-title,link,content,
-FizzBuzz,http://localhost:5174/public/Project/FrizzBuzz/index.html,FizzBuzz è un progetto sviluppato per esercitare la conoscenza di FlexBox.
-I Dadi,http://localhost:5174/public/Project/Dadi/index.html,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLm2nTGMhkAOl2rpr2-qXWQtYnc8iXbNubtg&s
-Simon,http://localhost:5174/public/Project/Simon/index.html,https://www.loremipzum.com/img/Lino-ipsum-generator.webp
-Boolflix,https://boolflix-3b98e.web.app,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLm2nTGMhkAOl2rpr2-qXWQtYnc8iXbNubtg&s
+title,link,content,user_id
+
+FizzBuzz,http://localhost:5174/public/Project/FrizzBuzz/index.html,FizzBuzz è un progetto sviluppato per esercitare la conoscenza di FlexBox.,1
+
+I Dadi,http://localhost:5174/public/Project/Dadi/index.html,https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLm2nTGMhkAOl2rpr2-qXWQtYnc8iXbNubtg&s,1
+
+Simon,http://localhost:5174/public/Project/Simon/index.html,https://www.loremipzum.com/img/Lino-ipsum-generator.webp,1
+
+Boolflix,https://boolflix-3b98e.web.app,"Questa web app, sviluppata con Vue.js, è ispirata a Netflix e progettata per offrire un’esperienza intuitiva nella ricerca di informazioni sui film. Funzionalità principali: • Barra di ricerca dinamica: l’utente può inserire il titolo di un film e ottenere un elenco di risultati pertinenti in tempo reale, grazie a chiamate API gestite con Axios. • Selezione interattiva: cliccando su un film tra i risultati, nel jumbo grande in alto vengono visualizzate le informazioni dettagliate, come titolo, anno di produzione, descrizione e altro. • Interfaccia chiara e funzionale: il layout è progettato per garantire un’esperienza UI/UX ottimale, con un design pulito e intuitivo che rende la navigazione semplice e immediata. • Aggiornamento istantaneo: grazie a Vue.js, la gestione dei dati è reattiva e fluida, evitando il ricaricamento della pagina e migliorando la performance.",1

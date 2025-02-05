@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Type;
 use App\Models\Technology;
 use App\Models\Image;
+use App\Models\User;
 
 //use Illuminate\Support\Facades\DB;
 
@@ -20,9 +21,9 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(User $user)
     {
-        $projects = Project::all();
+        $projects = Project::where('user_id', auth()->id())->get();
         return view('admin.project.index ', compact('projects'));
     }
 
@@ -43,6 +44,7 @@ class ProjectController extends Controller
     {
         //Valido i dati
         $form_data = $request->validated();
+        $form_data['user_id'] = auth()->id();
         $originalTitle = $form_data['title'];
         $title = $originalTitle;  // Inizialmente, il titolo è uguale all'originale
         $counter = 1;
@@ -62,18 +64,18 @@ class ProjectController extends Controller
         $new_project = Project::create($form_data);
 
         //verifico se ci sono immagini
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $name = $image->getClientOriginalName();
-            $path = Storage::disk('google')->putFileAs('images', $image, $name);
-            $form_data['image'] = $path;
-        }
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $name = $image->getClientOriginalName();
+        //     $path = Storage::disk('google')->putFileAs('images', $image, $name);
+        //     $form_data['image'] = $path;
+        // }
 
 
-        Image::create([
-            'project_id' => $new_project->id,  // Collega l'immagine al progetto
-            'path' => $path                   // Salva il percorso dell'immagine
-        ]);
+        // Image::create([
+        //     'project_id' => $new_project->id,  // Collega l'immagine al progetto
+        //     //'path' => $path                   // Salva il percorso dell'immagine
+        // ]);
 
 
 
@@ -91,8 +93,9 @@ class ProjectController extends Controller
     public function show($slug)
     {
         $project = Project::where('slug', $slug)->with('images', 'type', 'technologies')->firstOrFail();
-        //dd($project);
-
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Accesso non autorizzato');
+        };
         return view('admin.project.show', compact('project'));
     }
 
@@ -111,6 +114,9 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Accesso non autorizzato');
+        }
 
         $form_data = $request->validated();
         if ($project->title !== $form_data['title']) {
@@ -170,6 +176,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if ($project->user_id !== auth()->id()) {
+            abort(403, 'Accesso non autorizzato');
+        };
         $project->delete();
         return redirect()->route("admin.project.index")->with('message', "The project $project->title has been deleted");
 

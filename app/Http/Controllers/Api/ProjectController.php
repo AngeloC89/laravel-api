@@ -19,29 +19,29 @@ class ProjectController extends Controller
         $projects = Project::with(['technologies', 'images']);
 
         if ($request->query('technologies')) {
-            $projects->whereHas('technologies', function($query) use ($request) {
+            $projects->whereHas('technologies', function ($query) use ($request) {
                 $query->where('technology_id', $request->query('technologies'));
             });
         }
 
-        if ($request->query('images')) {
-            $projects->whereHas('images', function($query) use ($request) {
-                $query->where('image_id', $request->query('images'));  // Aggiusta questo filtro secondo le tue necessità
-            });
-        }
+        // if ($request->query('images')) {
+        //     $projects->whereHas('images', function ($query) use ($request) {
+        //         $query->where('image_id', $request->query('images'));  // Aggiusta questo filtro secondo le tue necessità
+        //     });
+        // }
 
         $projects = $projects->get();
-       //dd($projects);
+        //dd($projects);
         return response()->json([
             'status' => 'success',
             'results' => $projects
         ], 200);
-        
+
     }
 
     public function show($slug)
     {
-        $project = Project::with(['technologies','type', 'images'])->where('slug', $slug)->first();
+        $project = Project::with(['technologies', 'type', 'images'])->where('slug', $slug)->first();
 
         if ($project) {
             return response()->json([

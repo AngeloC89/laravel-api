@@ -9,11 +9,12 @@ use Illuminate\Support\Str;
 use App\Models\Technology;
 use App\Models\Type;
 use App\Models\Image;
+use App\Models\User;
 
 class Project extends Model
 {
     use HasFactory;
-    protected $fillable = ['type_id', 'title', 'link', 'content', 'slug' ];
+    protected $fillable = ['user_id','type_id', 'title', 'link',  'content', 'slug' ];
 
     public static function generateSlug($title)
     {
@@ -42,5 +43,11 @@ class Project extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    //questa funzione gestisce la relazione con gli utenti
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

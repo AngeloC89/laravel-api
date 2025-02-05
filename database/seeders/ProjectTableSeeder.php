@@ -30,6 +30,8 @@ class ProjectTableSeeder extends Seeder
             if($index !== 0) {
 
                 $new_project = new Project();
+                $new_project->user_id = $project[3];
+
                 $new_project->title = $project[0];
                 $new_project->link = $project[1];
                 $new_project->content = $project[2];

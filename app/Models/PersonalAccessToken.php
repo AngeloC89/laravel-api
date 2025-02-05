@@ -13,9 +13,8 @@ class PersonalAccessToken extends Model
 
     protected $fillable = ['tokenable_type', 'tokenable_id', 'name', 'token', 'expires_at', 'abilities'];
 
-    // Definisci la relazione polimorfica
-    public function tokenable()
+    public function user()
     {
-        return $this->morphTo();
+        return $this->belongsTo(User::class, 'tokenable_id');
     }
 }

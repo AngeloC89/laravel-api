@@ -17,7 +17,7 @@
         <br>
         <p><strong>Nome:</strong> <span>{{ $name }}</span></p>
         <p><strong>Email:</strong> <span>{{ $email }}</span></p>
-        <h4 class="mt-4">Messaggio:</h4>
+        <h4 class="mt-4 ">Messaggio:</h4>
         <p class="fst-italic text-danger">{{ $message ?? 'Nessun messaggio fornito' }}</p>
     </div>
 </body>
