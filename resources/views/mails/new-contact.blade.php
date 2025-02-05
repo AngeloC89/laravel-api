@@ -4,21 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @vite(['resources/js/app.js'])
     <title>Nuovo Contatto</title>
 </head>
 
-<body class="container d-flex align-items-center justify-content-center vh-100 bg-light">
-    <div id="box" class="card shadow p-4">
-        <h1 class="text-danger">All'attenzione dell'amministratore</h1>
-        <p class="lead">Hai ricevuto un nuovo messaggio:</p>
+<body style="background-color: #f8f9fa; width: 100%; height: 100%;">
+    <div
+        style="width: 100%; height: 400px; background-image: url( 'images/image2mani.png'); background-position: center;">
+
+    </div>
+    <div style="text-align: left;  width: 50%; margin: 50px 30px">
+        <h1 style="font-weight: bold; color: #fb6309">All'attenzione dell'amministratore</h1>
         <br>
-        <p><strong>Nome:</strong> <span>{{ $name }}</span></p>
-        <p><strong>Email:</strong> <span>{{ $email }}</span></p>
-        <h4 class="mt-4 ">Messaggio:</h4>
-        <p class="fst-italic text-danger">{{ $message ?? 'Nessun messaggio fornito' }}</p>
+       <span style="text-align: left"><h3 style="font-weight: bold; color: #ff0000; display: inline">Mittente:</h3>
+       <p style="display: inline; font-size: 40px; margin:0px 10px;">{{ $name }}</p></span> 
+       <br>
+        <span><h3 style="font-weight: bold; color: #ff0000; display: inline">Email:</h3> <p style="display: inline; font-size: 40px; margin:0px 10px;">{{ $email }}</p></span>
+        <h4 style="font-weight: bold; font-size: 40px; margin-top:30px; ">Messaggio:</h4>
+        <p style="font-size: 50px">{{ $message ?? 'Nessun messaggio fornito' }}</p>
     </div>
 </body>
 
