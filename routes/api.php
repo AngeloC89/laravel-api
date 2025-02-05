@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\TechnologyController;
 use App\Http\Controllers\Api\LeadController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\api\MailController;
+use App\Http\Controllers\Api\MailController;
 
 /*
 |--------------------------------------------------------------------------
