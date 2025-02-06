@@ -40,7 +40,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
+route::get('/test', function () {
+    return view('mails.new-contact', [
+        'name' => 'Mario Rossi',
+        'email' => 'mario.rossi@example.com',
+        'message' => 'Questo è un messaggio di test per verificare il template della mail.',
+    ]);
+    
+});
 
 Route::get('/auth/google', [GmailAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/callback', [GmailAuthController::class, 'handleGoogleCallback']);

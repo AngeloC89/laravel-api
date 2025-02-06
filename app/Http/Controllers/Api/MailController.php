@@ -7,6 +7,7 @@ use Google\Service\Gmail;
 use App\Services\GoogleTokenService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Google_Service_Gmail_Message;
 
 class MailController extends Controller
 {
@@ -31,9 +32,9 @@ class MailController extends Controller
 
         // Autenticazione tramite il GoogleTokenService
         $this->tokenService->authenticate($client);
-    
+
         return $client;
-        
+
     }
 
     /**
@@ -47,41 +48,33 @@ class MailController extends Controller
             'email' => 'required|email',
             'message' => 'required|string',
         ]);
-    
+
         // Parametri del destinatario e del contenuto
         $to = 'angelociulla89@gmail.com';
         $subject = 'Nuovo Messaggio di Contatto!';
-    
+
         // Rendering del template Blade (mails.new-contact)
         $htmlContent = view('mails.new-contact', [
             'name' => $validated['name'],
             'email' => $validated['email'],
             'message' => $validated['message'],
         ])->render();
-    
-        // Costruzione del messaggio MIME
-        $boundary = uniqid(rand(), true);
-        $charset = 'utf-8';
-    
-        $messageBody = "--{$boundary}\r\n";
-        $messageBody .= "Content-Type: text/html; charset={$charset}\r\n";
-        $messageBody .= "Content-Transfer-Encoding: quoted-printable\r\n\r\n";
-        $messageBody .= "{$htmlContent}\r\n";
-        $messageBody .= "--{$boundary}--";
-    
+
+        // Crea il corpo del messaggio HTML
         $rawMessage = "To: {$to}\r\n";
-        $rawMessage .= "Subject: =?{$charset}?B?" . base64_encode($subject) . "?=\r\n";
+        $rawMessage .= "Subject: =?utf-8?B?" . base64_encode($subject) . "?=\r\n";
         $rawMessage .= "MIME-Version: 1.0\r\n";
-        $rawMessage .= "Content-Type: multipart/alternative; boundary=\"{$boundary}\"\r\n\r\n";
-        $rawMessage .= $messageBody;
-    
+        $rawMessage .= "Content-Type: text/html; charset=UTF-8\r\n\r\n";
+        $rawMessage .= $htmlContent; // Corpo dell'email
+
+        // Codifica il messaggio in base64 (URL-safe)
         $rawMessage = base64_encode($rawMessage);
-        $rawMessage = str_replace(['+', '/', '='], ['-', '_', ''], $rawMessage); // URL-safe base64
-    
+        $rawMessage = str_replace(['+', '/', '='], ['-', '_', ''], $rawMessage); // Codifica URL-safe
+
         // Crea il messaggio Gmail
-        $gmailMessage = new \Google_Service_Gmail_Message();
+        $gmailMessage = new Google_Service_Gmail_Message();
         $gmailMessage->setRaw($rawMessage);
-    
+
         // Configura il servizio Gmail
         $service = new \Google_Service_Gmail($this->configureGmailClient());
 
@@ -94,3 +87,4 @@ class MailController extends Controller
         }
     }
 }
+;

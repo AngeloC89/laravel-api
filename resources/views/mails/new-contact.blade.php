@@ -1,28 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @vite(['resources/js/app.js'])
     <title>Nuovo Contatto</title>
 </head>
 
-<body style="background-color: #f8f9fa; width: 100%; height: 100%;">
-    <div
-        style="width: 100%; height: 400px; background-image: url( 'images/image2mani.png'); background-position: center;">
+<body style="background-color: #f8f9fa; width: 100%; margin: 0; padding: 0; font-family: Arial, sans-serif;">
 
-    </div>
-    <div style="text-align: left;  width: 50%; margin: 50px 30px">
-        <h1 style="font-weight: bold; color: #fb6309">All'attenzione dell'amministratore</h1>
-        <br>
-       <span style="text-align: left"><h3 style="font-weight: bold; color: #ff0000; display: inline">Mittente:</h3>
-       <p style="display: inline; font-size: 40px; margin:0px 10px;">{{ $name }}</p></span> 
-       <br>
-        <span><h3 style="font-weight: bold; color: #ff0000; display: inline">Email:</h3> <p style="display: inline; font-size: 40px; margin:0px 10px;">{{ $email }}</p></span>
-        <h4 style="font-weight: bold; font-size: 40px; margin-top:30px; ">Messaggio:</h4>
-        <p style="font-size: 50px">{{ $message ?? 'Nessun messaggio fornito' }}</p>
-    </div>
+    <!-- Sezione Header con Immagine -->
+    <table role="presentation" width="100%" style="background-color: #ffffff;">
+        <tr>
+            <td style="display: flex; justify-content: center; ">
+                <img src="{{ asset('/images/image2mani.png') }}" alt="Header Image" 
+                     style="width: 100%; max-width: 600px; display: block;">
+            </td>
+        </tr>
+    </table>
+
+    <!-- Contenuto Email -->
+    <table role="presentation" width="100%" style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+        <tr>
+            <td>
+                <h1 style="color: #fb6309; font-size: 24px; text-align: center;">All'attenzione dell'amministratore</h1>
+                <hr style="border: 1px solid #ddd;">
+                
+                <p style="font-size: 18px; color: #333;"><strong style="color: #ff0000;">Mittente:</strong> {{ $name }}</p>
+                <p style="font-size: 18px; color: #333;"><strong style="color: #ff0000;">Email:</strong> {{ $email }}</p>
+
+                <h4 style="font-size: 22px; color: #000; margin-top: 20px;">Messaggio:</h4>
+                <p style="font-size: 18px; color: #333;">{{ $message ?? 'Nessun messaggio fornito' }}</p>
+            </td>
+        </tr>
+    </table>
+
 </body>
-
 </html>
