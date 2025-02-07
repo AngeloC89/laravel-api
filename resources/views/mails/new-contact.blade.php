@@ -13,21 +13,24 @@
     <table role="presentation" width="100%" style="background-color: #ffffff;">
         <tr>
             <td style="display: flex; justify-content: center; ">
-                <img src="{{ asset('/images/image2mani.png') }}" alt="Header Image" 
-                     style="width: 100%; max-width: 600px; display: block;">
+                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/image2mani.png'))) }}"
+                    alt="Header Image">
             </td>
         </tr>
     </table>
 
     <!-- Contenuto Email -->
-    <table role="presentation" width="100%" style="max-width: 600px; margin: 0 auto; padding: 20px; background-color: #ffffff;">
+    <table role="presentation"
+        style="width: 100%; margin: 0 auto; padding: 20px; background-color: #ffffff;">
         <tr>
             <td>
                 <h1 style="color: #fb6309; font-size: 24px; text-align: center;">All'attenzione dell'amministratore</h1>
                 <hr style="border: 1px solid #ddd;">
-                
-                <p style="font-size: 18px; color: #333;"><strong style="color: #ff0000;">Mittente:</strong> {{ $name }}</p>
-                <p style="font-size: 18px; color: #333;"><strong style="color: #ff0000;">Email:</strong> {{ $email }}</p>
+
+                <p style="font-size: 18px; color: #333;"><strong style="color: #ff0000;">Mittente:</strong> {{ $name }}
+                </p>
+                <p style="font-size: 18px; color: #333;"><strong style="color: #ff0000;">Email:</strong> {{ $email }}
+                </p>
 
                 <h4 style="font-size: 22px; color: #000; margin-top: 20px;">Messaggio:</h4>
                 <p style="font-size: 18px; color: #333;">{{ $message ?? 'Nessun messaggio fornito' }}</p>
@@ -36,4 +39,5 @@
     </table>
 
 </body>
+
 </html>
