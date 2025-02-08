@@ -10,10 +10,10 @@
 <body style="background-color: #f8f9fa; width: 100%; margin: 0; padding: 0; font-family: Arial, sans-serif;">
 
     <!-- Sezione Header con Immagine -->
-    <table role="presentation" width="100%" style="background-color: #ffffff;">
+    <table role="presentation" style="background-color: #ffffff;">
         <tr>
-            <td style="display: flex; justify-content: center; ">
-                <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/image2mani.png'))) }}"
+            <td style="display: flex; justify-content: center;">
+                <img style="width: 100vw; " src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('images/image2mani.png'))) }}"
                     alt="Header Image">
             </td>
         </tr>
